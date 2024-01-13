@@ -17,6 +17,7 @@ export default function DashboardNav() {
     const settingsRef = useRef(null)
     const { isLightTheme, setIsLightTheme } = useTheme()
 
+    //If user clicks outside of the settingsRef, make the pop up disappear
     useClickOutNav(hamburgerRef, settingsRef, () => {
         setToggleSignOut(false)
     })
@@ -87,7 +88,7 @@ export default function DashboardNav() {
                     "bg-lightMode-primary": isLightTheme,
                     "bg-darkMode-highlight": !isLightTheme
                 })}>
-                    <Link 
+                    {/* <Link 
                         className={clsx("w-full flex items-center justify-center cursor-pointer rounded-md h-10", {
                         "hover:bg-lightMode-highlight": isLightTheme,
                         "hover:bg-darkMode-alternate": !isLightTheme
@@ -96,7 +97,7 @@ export default function DashboardNav() {
                         onClick={() => setToggleSignOut(false)} 
                     >
                         Account
-                    </Link>
+                    </Link> */}
                     
                     
 

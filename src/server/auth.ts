@@ -55,14 +55,14 @@ export const authOptions: NextAuthOptions = {
         return {
           //this will populate the user schema based on information pulled from the auth provider
           name: profile.login,
-          email: profile.email || undefined,
+          email: profile.email,
           role: profile.role ?? "user",
-          id: profile.id.toString(),
-          image: profile.avatar_url,
+          id: profile.id!.toString(),
+          image: profile.avatar_url!,
         }
       },
-      clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string,
+      clientId: (process.env.GITHUB_ID as string)!,
+      clientSecret: (process.env.GITHUB_SECRET as string)!,
     }),
     /**
      * ...add more providers here.
@@ -86,10 +86,6 @@ export const authOptions: NextAuthOptions = {
       },
     }),
     async redirect({url, baseUrl}) {
-      
-      console.log(`This is the url: ${url}`)
-      console.log(`This is the baseurl: ${baseUrl}`)
-
       return baseUrl
     }
   },
