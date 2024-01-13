@@ -4,12 +4,12 @@ import { useTheme } from "../context/ThemeProvider";
 import { clsx } from "clsx"
 import BoxOfFewFriends from "../_components/BoxOfFewFriends";
 import FriendsFeed from "../_components/FriendsFeed";
-import { redirect } from "next/navigation"
+// import { redirect } from "next/navigation"
 import AccountModal from "../_components/AccountModal";
 import { useRouter } from 'next/navigation'
 
-import { storage } from "../../firebase/config";
-import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
+// import { storage } from "../../firebase/config";
+// import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
 
 export default function DashboardPage() {
     const router = useRouter()

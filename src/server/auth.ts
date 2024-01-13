@@ -4,7 +4,7 @@ import {
   type DefaultSession,
   type NextAuthOptions,
 } from "next-auth";
-import { env } from "../env";
+// import { env } from "../env";
 import { db } from "./db";
 import GitHubProvider from 'next-auth/providers/github'
 import { GithubProfile } from 'next-auth/providers/github'
@@ -45,11 +45,17 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   providers: [
     GitHubProvider({
-      profile(profile: GithubProfile) {
+      profile(profile: GithubProfile): {
+        name: string;
+        email: string | null | undefined;
+        role: string;
+        id: string;
+        image: string;
+      } {
         return {
           //this will populate the user schema based on information pulled from the auth provider
           name: profile.login,
-          email: profile.email,
+          email: profile.email || undefined,
           role: profile.role ?? "user",
           id: profile.id.toString(),
           image: profile.avatar_url,

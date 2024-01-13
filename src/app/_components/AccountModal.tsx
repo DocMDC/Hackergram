@@ -55,7 +55,7 @@ export default function AccountModal({ onClose }: Props) {
                       <h2 className="border-b border-gray-200 pb-2">Profile</h2>
                       <div className="flex items-center mt-4">
                         <Image
-                          src={session?.user.image as string}
+                          src={session?.user?.image as string}
                           alt="profile image"
                           width={50}
                           height={50}
@@ -67,12 +67,12 @@ export default function AccountModal({ onClose }: Props) {
 
                     <div className="pb-3 mb-3">
                       <h2 className="border-b border-gray-200 pb-2">Username</h2>
-                      <h3 className="mt-4 text-sm text-gray-500">{session?.user.name}</h3>
+                      <h3 className="mt-4 text-sm text-gray-500">{session?.user?.name}</h3>
                     </div>
 
                     <div>
                       <h2 className="border-b border-gray-200 pb-2">Email address</h2>
-                      <h3 className="mt-4 text-sm text-gray-500">{session?.user.email}</h3>
+                      <h3 className="mt-4 text-sm text-gray-500">{session?.user?.email}</h3>
                     </div>
                 </div>
             </dialog>
