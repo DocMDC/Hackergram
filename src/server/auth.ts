@@ -52,7 +52,7 @@ export const authOptions: NextAuthOptions = {
           //this will populate the user schema based on information pulled from the auth provider
           name: profile.login,
           email: profile.email,
-          role: profile?.role.toString() ?? "user",
+          role: "user",
           id: profile.id.toString(),
           image: profile.avatar_url,
         };
