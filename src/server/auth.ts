@@ -81,9 +81,9 @@ export const authOptions: NextAuthOptions = {
         email: user.email,
       },
     }),
-    async redirect({ url, baseUrl }) {
-      return baseUrl;
-    },
+    // async redirect({ url, baseUrl }) {
+    //   return baseUrl;
+    // },
   },
   //can add custom pages in place of the default sign in and sign out pages if desired
   // pages: {

@@ -29,6 +29,7 @@ export default function AccountModal({ onClose }: Props) {
     onClose();
   };
 
+  console.log(session?.user?.role);
   //   async function updateImage() {
   //     console.log("updating");
   //   }
