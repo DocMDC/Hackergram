@@ -1,13 +1,10 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import {
-  getServerSession,
-} from "next-auth";
-import type { DefaultSession, NextAuthOptions } from "next-auth"
+import { getServerSession } from "next-auth";
+import type { DefaultSession, NextAuthOptions } from "next-auth";
 // import { env } from "../env";
 import { db } from "./db";
-import GitHubProvider from 'next-auth/providers/github'
-import { GithubProfile } from 'next-auth/providers/github'
-
+import GitHubProvider from "next-auth/providers/github";
+import { GithubProfile } from "next-auth/providers/github";
 
 //May be helpful to see the entire github profile schema: https://github.com/nextauthjs/next-auth/blob/v4/packages/next-auth/src/providers/github.ts
 
@@ -56,12 +53,12 @@ export const authOptions: NextAuthOptions = {
           name: profile.login,
           email: profile.email,
           role: profile.role ?? "user",
-          id: profile.id!.toString(),
-          image: profile.avatar_url!,
-        }
+          id: profile.id.toString(),
+          image: profile.avatar_url,
+        };
       },
-      clientId: (process.env.GITHUB_ID as string)!,
-      clientSecret: (process.env.GITHUB_SECRET as string)!,
+      clientId: process.env.GITHUB_ID!,
+      clientSecret: process.env.GITHUB_SECRET!,
     }),
     /**
      * ...add more providers here.
@@ -81,12 +78,12 @@ export const authOptions: NextAuthOptions = {
         id: user.id,
         name: user.name,
         role: user.role,
-        email: user.email
+        email: user.email,
       },
     }),
-    async redirect({url, baseUrl}) {
-      return baseUrl
-    }
+    async redirect({ url, baseUrl }) {
+      return baseUrl;
+    },
   },
   //can add custom pages in place of the default sign in and sign out pages if desired
   // pages: {

@@ -2,7 +2,7 @@
 import { useSearchParams } from "next/navigation";
 import { useRef, useEffect } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
-import Image from "next/image";
+// import Image from "next/image";
 import { useSession } from "next-auth/react";
 
 type Props = {
@@ -29,9 +29,9 @@ export default function AccountModal({ onClose }: Props) {
     onClose();
   };
 
-  async function updateImage() {
-    console.log("updating");
-  }
+  //   async function updateImage() {
+  //     console.log("updating");
+  //   }
 
   const dialog: JSX.Element | null =
     showDialog === "y" ? (
@@ -55,14 +55,14 @@ export default function AccountModal({ onClose }: Props) {
           <div className="mb-3 pb-3">
             <h2 className="border-b border-gray-200 pb-2">Profile</h2>
             <div className="mt-4 flex items-center">
-              <Image
-                src={session?.user?.image!}
+              {/* <Image
+                src={session?.user?.image}
                 alt="profile image"
                 width={50}
                 height={50}
                 className="mr-10 rounded-full"
                 onClick={updateImage}
-              />
+              /> */}
             </div>
           </div>
 
