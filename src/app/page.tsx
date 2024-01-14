@@ -1,38 +1,38 @@
-import Link from "next/link"
+import Link from "next/link";
 import { getServerAuthSession } from "~/server/auth";
-import { redirect } from "next/navigation"
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   const session = await getServerAuthSession();
 
   if (session) {
-    redirect('/dashboard')
+    redirect("/dashboard");
   }
 
   return (
     <main className="flex h-screen items-center justify-center bg-700">
-      <div className="flex flex-col w-96">
-        
+      <div className="flex w-96 flex-col">
         <div className="mr-auto flex flex-col items-start justify-center">
-          <h1 className="text-500 text-5xl font-bold mb-2 lg:text-6xl">Hacker<span className="text-100">gram</span></h1>
-          <h2 className="text-xl text-100 font-medium lg:text-2xl lg:mt-2 ">Connect with other hackers around the world.</h2>
+          <h1 className="mb-2 text-5xl font-bold text-500 lg:text-6xl">
+            Hacker<span className="text-100">gram</span>
+          </h1>
+          <h2 className="text-xl font-medium text-100 lg:mt-2 lg:text-2xl ">
+            Connect with other hackers around the world.
+          </h2>
         </div>
-        
-        <div className="h-20 flex items-center">
+
+        <div className="flex h-20 items-center">
           <Link
             href={session ? "/api/auth/signout" : "/api/auth/signin"}
-            className="rounded-full bg-500 text-100 px-10 py-3 font-semibold no-underline transition lg:px-16 lg:py-4 lg:text-xl lg:mt-8 hover:bg-hoverPrimary"
+            className="rounded-full bg-500 px-10 py-3 font-semibold text-100 no-underline transition hover:bg-hoverPrimary lg:mt-8 lg:px-16 lg:py-4 lg:text-xl"
           >
             {session ? "Sign out" : "Sign in"}
           </Link>
         </div>
-
       </div>
     </main>
-
-  )
+  );
 }
-
 
 // import Link from "next/link";
 

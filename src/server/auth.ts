@@ -1,11 +1,12 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { getServerSession } from "next-auth";
 import type { DefaultSession, NextAuthOptions } from "next-auth";
-// import { env } from "../env";
+import { env } from "../env";
 import { db } from "./db";
-import GitHubProvider from "next-auth/providers/github";
-import { GithubProfile } from "next-auth/providers/github";
-
+// import GitHubProvider from "next-auth/providers/github";
+// import { GithubProfile } from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
+// import { GoogleProfile } from "next-auth/providers/google";
 //May be helpful to see the entire github profile schema: https://github.com/nextauthjs/next-auth/blob/v4/packages/next-auth/src/providers/github.ts
 
 /**
@@ -40,25 +41,45 @@ declare module "next-auth" {
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   providers: [
-    GitHubProvider({
-      profile(profile: GithubProfile): {
-        name: string;
-        email: string | null | undefined;
-        role: string;
-        id: string;
-        image: string;
-      } {
-        return {
-          //this will populate the user schema based on information pulled from the auth provider
-          name: profile.login,
-          email: profile.email,
-          role: "user",
-          id: profile.id.toString(),
-          image: profile.avatar_url,
-        };
-      },
-      clientId: process.env.GITHUB_ID!,
-      clientSecret: process.env.GITHUB_SECRET!,
+    // GitHubProvider({
+    //   profile(profile: GithubProfile): {
+    //     name: string;
+    //     email: string | null | undefined;
+    //     role: string;
+    //     id: string;
+    //     image: string;
+    //   } {
+    //     return {
+    //       //this will populate the user schema based on information pulled from the auth provider
+    //       name: profile.login,
+    //       email: profile.email,
+    //       role: "user",
+    //       id: profile.id.toString(),
+    //       image: profile.avatar_url,
+    //     };
+    //   },
+    //   clientId: env.GITHUB_ID!,
+    //   clientSecret: env.GITHUB_SECRET!,
+    // }),
+    GoogleProvider({
+      // profile(profile: GoogleProfile): {
+      //   name: string;
+      //   email: string | null | undefined;
+      //   role: string;
+      //   id: string;
+      //   image: string;
+      // } {
+      //   return {
+      //     //this will populate the user schema based on information pulled from the auth provider
+      //     name: profile.name,
+      //     email: profile.email,
+      //     role: "user",
+      //     id: profile.iss,
+      //     image: profile.picture,
+      //   };
+      // },
+      clientId: env.GOOGLE_CLIENT_ID!,
+      clientSecret: env.GOOGLE_CLIENT_SECRET!,
     }),
     /**
      * ...add more providers here.
