@@ -5,7 +5,7 @@ import { env } from "../env";
 import { db } from "./db";
 import GitHubProvider from "next-auth/providers/github";
 // import { GithubProfile } from "next-auth/providers/github";
-import GoogleProvider from "next-auth/providers/google";
+// import GoogleProvider from "next-auth/providers/google";
 // import { GoogleProfile } from "next-auth/providers/google";
 //May be helpful to see the entire github profile schema: https://github.com/nextauthjs/next-auth/blob/v4/packages/next-auth/src/providers/github.ts
 
@@ -58,29 +58,29 @@ export const authOptions: NextAuthOptions = {
       //     image: profile.avatar_url,
       //   };
       // },
-      clientId: env.GITHUB_ID!,
-      clientSecret: env.GITHUB_SECRET!,
+      clientId: env.GITHUB_ID,
+      clientSecret: env.GITHUB_SECRET,
     }),
-    GoogleProvider({
-      // profile(profile: GoogleProfile): {
-      //   name: string;
-      //   email: string | null | undefined;
-      //   role: string;
-      //   id: string;
-      //   image: string;
-      // } {
-      //   return {
-      //     //this will populate the user schema based on information pulled from the auth provider
-      //     name: profile.name,
-      //     email: profile.email,
-      //     role: "user",
-      //     id: profile.iss,
-      //     image: profile.picture,
-      //   };
-      // },
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
-    }),
+    // GoogleProvider({
+    // profile(profile: GoogleProfile): {
+    //   name: string;
+    //   email: string | null | undefined;
+    //   role: string;
+    //   id: string;
+    //   image: string;
+    // } {
+    //   return {
+    //     //this will populate the user schema based on information pulled from the auth provider
+    //     name: profile.name,
+    //     email: profile.email,
+    //     role: "user",
+    //     id: profile.iss,
+    //     image: profile.picture,
+    //   };
+    // },
+    //   clientId: env.GOOGLE_CLIENT_ID,
+    //   clientSecret: env.GOOGLE_CLIENT_SECRET,
+    // }),
     /**
      * ...add more providers here.
      *
