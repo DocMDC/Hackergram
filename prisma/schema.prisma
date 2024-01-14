@@ -1,6 +1,5 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
     provider = "prisma-client-js"
 }
@@ -11,7 +10,7 @@ datasource db {
     // Further reading:
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
     // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-    url          = env("DATABASE_URL")
+    url          = "mysql://gt5ues1sz3y4t32sa4ma:pscale_pw_2BC08CNppqA8emYhIbLQX8NVaIPd0jvq7mONgzakMON@aws.connect.psdb.cloud/hackergram?sslaccept=strict"
     relationMode = "prisma"
 }
 
