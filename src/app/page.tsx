@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getServerAuthSession } from "~/server/auth";
 import { redirect } from "next/navigation";
+import { api } from "~/trpc/server";
 
 export default async function Home() {
   const session = await getServerAuthSession();
@@ -8,6 +9,13 @@ export default async function Home() {
   if (session) {
     redirect("/dashboard");
   }
+
+  const userQuery = await api.post.hello.query({
+    text: "hello from the front end",
+  });
+
+  console.log("this is the user query:");
+  console.log(userQuery);
 
   return (
     <main className="flex h-screen items-center justify-center bg-700">

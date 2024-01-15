@@ -2,19 +2,34 @@
 import { useSearchParams } from "next/navigation";
 import { useRef, useEffect } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
-// import Image from "next/image";
 import { useSession } from "next-auth/react";
+//calling api from react is very different from calling it from server. React is the api on the frontend. Server is the api on the backend.
+// import { api } from "~/trpc/react";
+// import { useRouter } from "next/navigation";
+import ProfileImage from "./ProfileImage";
+import { useRouter } from "next/navigation";
+import { clsx } from "clsx";
+import { useTheme } from "../context/ThemeProvider";
 
 type Props = {
   onClose: () => void;
 };
 
 export default function AccountModal({ onClose }: Props) {
+  const router = useRouter();
   const searchParams = useSearchParams();
+  const { isLightTheme, setIsLightTheme } = useTheme();
 
   const dialogRef = useRef<null | HTMLDialogElement>(null);
   const showDialog = searchParams.get("showDialog");
   const { data: session } = useSession();
+
+  // Redirect to home page if there is no session
+  useEffect(() => {
+    if (!session) {
+      router.push("/");
+    }
+  }, [session, router]);
 
   useEffect(() => {
     if (showDialog === "y") {
@@ -29,10 +44,16 @@ export default function AccountModal({ onClose }: Props) {
     onClose();
   };
 
-  console.log(session?.user?.role);
-  //   async function updateImage() {
-  //     console.log("updating");
-  //   }
+  // const createPost = api.post.create.useMutation({
+  //   onSuccess: () => {
+  //     router.refresh();
+  //     setName("");
+  //   },
+  // });
+
+  if (!session) {
+    return;
+  }
 
   const dialog: JSX.Element | null =
     showDialog === "y" ? (
@@ -40,46 +61,106 @@ export default function AccountModal({ onClose }: Props) {
         ref={dialogRef}
         className="top-50 left-50 -translate-x-50 -translate-y-50 fixed z-10  rounded-xl backdrop:bg-gray-500/50"
       >
-        <div className="relative flex h-[500px] w-[325px] flex-col px-5">
+        <div
+          className={clsx("relative flex h-[500px] w-[325px] flex-col px-5", {
+            "bg-100": isLightTheme,
+            "bg-darkMode-secondary": !isLightTheme,
+          })}
+        >
           <AiFillCloseCircle
             onClick={closeModal}
-            className="absolute right-0 top-0 mr-2 mt-2 h-8 w-8 cursor-pointer rounded border-none font-bold hover:text-gray-600"
+            className={clsx(
+              "absolute right-0 top-0 mr-2 mt-2 h-8 w-8 cursor-pointer rounded border-none font-bold",
+              {
+                "hover:text-gray-600": isLightTheme,
+                "text-darkMode-primary hover:text-darkMode-highlight":
+                  !isLightTheme,
+              },
+            )}
           />
 
-          <div className="flex flex-col justify-between pt-8 ">
-            <h1 className="mb-3 text-3xl">Account</h1>
-            <h2 className="mb-9 text-sm text-gray-500">
+          <div className="flex flex-col justify-between pt-8">
+            <h1
+              className={clsx("mb-3 text-3xl", {
+                "text-black": isLightTheme,
+                "text-white": !isLightTheme,
+              })}
+            >
+              Account
+            </h1>
+            <h2
+              className={clsx("mb-9 text-sm", {
+                "text-gray-500": isLightTheme,
+                "text-gray-200": !isLightTheme,
+              })}
+            >
               Manage your account settings
             </h2>
           </div>
 
           <div className="mb-3 pb-3">
-            <h2 className="border-b border-gray-200 pb-2">Profile</h2>
-            <div className="mt-4 flex items-center">
-              {/* <Image
-                src={session?.user?.image}
-                alt="profile image"
-                width={50}
-                height={50}
-                className="mr-10 rounded-full"
-                onClick={updateImage}
-              /> */}
-            </div>
+            <ProfileImage userId={session.user.id} />
           </div>
 
           <div className="mb-3 pb-3">
-            <h2 className="border-b border-gray-200 pb-2">Username</h2>
-            <h3 className="mt-4 text-sm text-gray-500">
-              {session?.user?.name}
+            <h2
+              className={clsx("border-b border-gray-200 pb-2", {
+                "text-gray-500": isLightTheme,
+                "text-gray-200": !isLightTheme,
+              })}
+            >
+              Username
+            </h2>
+            <h3
+              className={clsx("mt-4 text-sm", {
+                "text-gray-500": isLightTheme,
+                "text-gray-400": !isLightTheme,
+              })}
+            >
+              {session.user.name}
             </h3>
           </div>
 
           <div>
-            <h2 className="border-b border-gray-200 pb-2">Email address</h2>
-            <h3 className="mt-4 text-sm text-gray-500">
-              {session?.user?.email}
+            <h2
+              className={clsx("border-b border-gray-200 pb-2", {
+                "text-gray-500": isLightTheme,
+                "text-gray-200": !isLightTheme,
+              })}
+            >
+              Email address
+            </h2>
+            <h3
+              className={clsx("mt-4 text-sm", {
+                "text-gray-500": isLightTheme,
+                "text-gray-400": !isLightTheme,
+              })}
+            >
+              {session.user.email}
             </h3>
           </div>
+
+          {/* <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              createPost.mutate({ name });
+            }}
+          >
+            <input
+              type="text"
+              placeholder="Title"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full rounded-full px-4 py-2 text-black"
+            />
+            <button
+              type="submit"
+              className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
+              disabled={createPost.isLoading}
+            >
+              {createPost.isLoading ? "Submitting..." : "Submit"}
+            </button>
+          </form> */}
         </div>
       </dialog>
     ) : null;
