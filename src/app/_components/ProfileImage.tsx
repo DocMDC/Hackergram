@@ -38,7 +38,7 @@ export default function ProfileImage({ userId }: ProfileImageProps) {
       }
     }
 
-    getCurrentImage();
+    void getCurrentImage();
   }, []);
 
   //Upload profile image to firebase storage
