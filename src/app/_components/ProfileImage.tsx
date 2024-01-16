@@ -13,9 +13,10 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { clsx } from "clsx";
 import { useTheme } from "../context/ThemeProvider";
+import { ProfileSkeleton } from "./ui/Skeletons";
 
 type ProfileImageProps = {
-  userId: string;
+  userId: string | undefined;
 };
 
 export default function ProfileImage({ userId }: ProfileImageProps) {
@@ -82,7 +83,7 @@ export default function ProfileImage({ userId }: ProfileImageProps) {
       </h2>
       <div className="mt-4 flex items-center">
         <div className="mr-auto max-w-36">
-          {profileImage && (
+          {profileImage ? (
             <div>
               <img
                 src={profileImage}
@@ -90,6 +91,8 @@ export default function ProfileImage({ userId }: ProfileImageProps) {
                 className="h-16 w-16 rounded-full object-cover"
               />
             </div>
+          ) : (
+            <ProfileSkeleton />
           )}
         </div>
 

@@ -18,18 +18,18 @@ type Props = {
 export default function AccountModal({ onClose }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { isLightTheme, setIsLightTheme } = useTheme();
+  const { isLightTheme } = useTheme();
 
   const dialogRef = useRef<null | HTMLDialogElement>(null);
   const showDialog = searchParams.get("showDialog");
   const { data: session } = useSession();
 
   // Redirect to home page if there is no session
-  useEffect(() => {
-    if (!session) {
-      router.push("/");
-    }
-  }, [session, router]);
+  // useEffect(() => {
+  //   if (!session) {
+  //     router.push("/");
+  //   }
+  // }, [session, router]);
 
   useEffect(() => {
     if (showDialog === "y") {
@@ -43,17 +43,6 @@ export default function AccountModal({ onClose }: Props) {
     dialogRef.current?.close();
     onClose();
   };
-
-  // const createPost = api.post.create.useMutation({
-  //   onSuccess: () => {
-  //     router.refresh();
-  //     setName("");
-  //   },
-  // });
-
-  if (!session) {
-    return;
-  }
 
   const dialog: JSX.Element | null =
     showDialog === "y" ? (
@@ -73,8 +62,7 @@ export default function AccountModal({ onClose }: Props) {
               "absolute right-0 top-0 mr-2 mt-2 h-8 w-8 cursor-pointer rounded border-none font-bold",
               {
                 "hover:text-gray-600": isLightTheme,
-                "text-darkMode-primary hover:text-darkMode-highlight":
-                  !isLightTheme,
+                "text-darkMode-primary hover:text-gray-500": !isLightTheme,
               },
             )}
           />
@@ -99,7 +87,7 @@ export default function AccountModal({ onClose }: Props) {
           </div>
 
           <div className="mb-3 pb-3">
-            <ProfileImage userId={session.user.id} />
+            <ProfileImage userId={session?.user.id} />
           </div>
 
           <div className="mb-3 pb-3">
@@ -117,7 +105,7 @@ export default function AccountModal({ onClose }: Props) {
                 "text-gray-400": !isLightTheme,
               })}
             >
-              {session.user.name}
+              {session?.user.name}
             </h3>
           </div>
 
@@ -136,34 +124,12 @@ export default function AccountModal({ onClose }: Props) {
                 "text-gray-400": !isLightTheme,
               })}
             >
-              {session.user.email}
+              {session?.user.email}
             </h3>
           </div>
-
-          {/* <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              createPost.mutate({ name });
-            }}
-          >
-            <input
-              type="text"
-              placeholder="Title"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full rounded-full px-4 py-2 text-black"
-            />
-            <button
-              type="submit"
-              className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
-              disabled={createPost.isLoading}
-            >
-              {createPost.isLoading ? "Submitting..." : "Submit"}
-            </button>
-          </form> */}
         </div>
       </dialog>
     ) : null;
 
-  return dialog;
+  return <>{session && <>{dialog}</>}</>;
 }
