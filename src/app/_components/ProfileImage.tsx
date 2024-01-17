@@ -43,7 +43,7 @@ export default function ProfileImage({ userId }: ProfileImageProps) {
       //save firebase URL to postgresql database
       await updateImage.mutateAsync({ url });
       //refetch updated profile image from database
-      refetch();
+      await refetch();
     } catch (err) {
       console.error("Error uploading image:", err);
     } finally {

@@ -28,6 +28,6 @@ export const accountRouter = createTRPCRouter({
       },
     });
 
-    return user?.profileImage || null;
+    return user?.profileImage ?? null;
   }),
 });
