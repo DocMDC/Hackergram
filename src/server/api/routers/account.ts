@@ -7,32 +7,27 @@ import {
 } from "~/server/api/trpc";
 
 export const accountRouter = createTRPCRouter({
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
-    }),
-
-  create: protectedProcedure
-    .input(z.object({ name: z.string().min(1) }))
+  updateProfileImage: protectedProcedure
+    .input(z.object({ url: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      // simulate a slow db call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      return ctx.db.post.create({
+      const updatedUser = await ctx.db.user.update({
+        where: {
+          id: ctx.session.user.id,
+        },
         data: {
-          name: input.name,
-          createdBy: { connect: { id: ctx.session.user.id } },
+          profileImage: input.url,
         },
       });
-    }),
 
-  getLatest: protectedProcedure.query(({ ctx }) => {
-    return ctx.db.post.findFirst({
-      orderBy: { createdAt: "desc" },
-      where: { createdBy: { id: ctx.session.user.id } },
+      return updatedUser;
+    }),
+  getCurrentProfileImage: protectedProcedure.query(async ({ ctx }) => {
+    const user = await ctx.db.user.findFirst({
+      where: {
+        id: ctx.session.user.id,
+      },
     });
+
+    return user?.profileImage || null;
   }),
 });

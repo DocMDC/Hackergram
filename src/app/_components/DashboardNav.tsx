@@ -10,6 +10,7 @@ import Link from "next/link";
 import useClickOutNav from "../hooks/useClickOutNav";
 import { useTheme } from "../context/ThemeProvider";
 import { clsx } from "clsx";
+import { signOut } from "next-auth/react";
 
 export default function DashboardNav() {
   const [toggleSignOut, setToggleSignOut] = useState(false);
@@ -146,8 +147,7 @@ export default function DashboardNav() {
                 },
               )}
             >
-              <Link
-                href={"/api/auth/signout"}
+              <button
                 className={clsx(
                   "flex h-10 w-full cursor-pointer items-center justify-center rounded-md",
                   {
@@ -155,9 +155,10 @@ export default function DashboardNav() {
                     "hover:bg-darkMode-alternate": !isLightTheme,
                   },
                 )}
+                onClick={() => void signOut()}
               >
-                Sign out
-              </Link>
+                Log Out
+              </button>
             </div>
           </div>
         )}

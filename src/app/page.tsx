@@ -14,9 +14,6 @@ export default async function Home() {
     text: "hello from the front end",
   });
 
-  console.log("this is the user query:");
-  console.log(userQuery);
-
   return (
     <main className="flex h-screen items-center justify-center bg-700">
       <div className="flex w-96 flex-col">

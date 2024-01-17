@@ -1,5 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
     provider = "prisma-client-js"
 }
@@ -11,18 +12,24 @@ datasource db {
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
     // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
     url      = env("DATABASE_URL")
-    // relationMode = "prisma"
 }
 
 model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    //@id means this is the unique identifier in this model
+    id          Int      @id @default(autoincrement())
+    name        String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    //createdById will be the same as the User id
+    //The element in fields refers to the current model and references refers to the relationship with another model (eg, id field in User model)
+    //Because there are two references to User (createdBy and LikedBy, an additional relationship must be established - who created it and who liked it? Thus the arbitrary "UserCreator" and "UserLiker" must be used and also set on the User model)
+    createdBy   User?    @relation("UserCreator", fields: [createdById], references: [id], onDelete: Cascade)
+    createdById String?
+    postImage   String?
+    likedBy     User?    @relation("UserLiker", fields: [likedById], references: [id], onDelete: Cascade)
+    likedById   String?
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
-
+    //An index associated with name just makes the database more efficient at searching for names (it's not necessary for the Post model)
     @@index([name])
 }
 
@@ -40,8 +47,13 @@ model Account {
     scope             String?
     id_token          String? @db.Text
     session_state     String?
+    // Cascade means that if a User record is deleted, all associated Account records with the corresponding userId will be automatically deleted as well.
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+    //Each account must have a unique combination of provider and providerAccountId
+    //One account could be provider: 123, providerAccountId: Google
+    //Another one could be provider: 123, providerAccountId: Facebook
+    //If @unique was applied after the individual fields then only one Account could have a provider of 123 and one of Google
     @@unique([provider, providerAccountId])
 }
 
@@ -59,11 +71,18 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
+    profileImage  String?
     login         String?
     role          String    @default("user")
     accounts      Account[]
     sessions      Session[]
-    posts         Post[]
+    createdPosts  Post[]    @relation("UserCreator")
+    likedPosts    Post[]    @relation("UserLiker")
+
+    //This is a bidrectional relationship
+    //In order for a User to have followers (eg, a list of Users), a User would also need to be able to follow other users. The name: "Follow" is an arbitrary name that provides a relationship bewteen followers and follows. This could be named anything. 
+    followers User[] @relation(name: "Follow")
+    follows   User[] @relation(name: "Follow")
 }
 
 model VerificationToken {

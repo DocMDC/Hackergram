@@ -27,9 +27,9 @@ export default function DashboardPage() {
         "bg-darkMode-primary text-white": !isLightTheme,
       })}
     >
-      <div className="min-h-[100px] bg-500">
+      {/* <div className="min-h-[100px] bg-500">
         <BoxOfFewFriends />
-      </div>
+      </div> */}
 
       <div className="grow bg-400">
         <FriendsFeed />

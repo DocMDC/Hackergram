@@ -11,3 +11,12 @@ export function ProfileSkeleton() {
     </div>
   );
 }
+
+// export function AccountSkeleton() {
+//   console.log("loading account skeleton");
+//   return (
+//     <div className="top-50 left-50 -translate-x-50 -translate-y-50 fixed z-10  rounded-xl backdrop:bg-gray-500/50">
+//       <div className="relative flex h-[500px] w-[325px] flex-col bg-red-200 px-5"></div>
+//     </div>
+//   );
+// }

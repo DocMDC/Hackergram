@@ -1,6 +1,12 @@
+import { getServerAuthSession } from "~/server/auth";
+// import LoadingSpinner from "./LoadingSpinner";
 
-export default function BoxOfFewFriends() {
+export default async function BoxOfFewFriends() {
+  const session = await getServerAuthSession();
+
   return (
-    <div>BoxOfFewFriends</div>
-  )
+    <div className="flex items-center justify-center">
+      {/* <LoadingSpinner height={8} width={8} /> */}
+    </div>
+  );
 }
