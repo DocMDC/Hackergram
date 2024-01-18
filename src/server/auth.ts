@@ -4,8 +4,10 @@ import type { DefaultSession, NextAuthOptions } from "next-auth";
 import { env } from "../env";
 import { db } from "./db";
 import GitHubProvider from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { randomUUID } from "crypto";
 // import { GithubProfile } from "next-auth/providers/github";
-// import GoogleProvider from "next-auth/providers/google";
+import GoogleProvider from "next-auth/providers/google";
 // import { GoogleProfile } from "next-auth/providers/google";
 //May be helpful to see the entire github profile schema: https://github.com/nextauthjs/next-auth/blob/v4/packages/next-auth/src/providers/github.ts
 
@@ -30,6 +32,8 @@ declare module "next-auth" {
   interface User {
     role: string;
     name: string;
+    // login: string;
+    // password: string;
   }
 }
 
@@ -61,26 +65,27 @@ export const authOptions: NextAuthOptions = {
       clientId: env.GITHUB_ID,
       clientSecret: env.GITHUB_SECRET,
     }),
-    // GoogleProvider({
-    // profile(profile: GoogleProfile): {
-    //   name: string;
-    //   email: string | null | undefined;
-    //   role: string;
-    //   id: string;
-    //   image: string;
-    // } {
-    //   return {
-    //     //this will populate the user schema based on information pulled from the auth provider
-    //     name: profile.name,
-    //     email: profile.email,
-    //     role: "user",
-    //     id: profile.iss,
-    //     image: profile.picture,
-    //   };
-    // },
-    //   clientId: env.GOOGLE_CLIENT_ID,
-    //   clientSecret: env.GOOGLE_CLIENT_SECRET,
-    // }),
+
+    GoogleProvider({
+      // profile(profile: GoogleProfile): {
+      //   name: string;
+      //   email: string | null | undefined;
+      //   role: string;
+      //   id: string;
+      //   image: string;
+      // } {
+      //   return {
+      //     //this will populate the user schema based on information pulled from the auth provider
+      //     name: profile.name,
+      //     email: profile.email,
+      //     role: "user",
+      //     id: profile.iss,
+      //     image: profile.picture,
+      //   };
+      // },
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+    }),
     /**
      * ...add more providers here.
      *
@@ -90,6 +95,43 @@ export const authOptions: NextAuthOptions = {
      *
      * @see https://next-auth.js.org/providers/github
      */
+    // CredentialsProvider({
+    //   // The name to display on the sign in form (e.g. "Sign in with...")
+    //   name: "Sign In",
+    //   // `credentials` is used to generate a form on the sign in page.
+    //   // You can specify which fields should be submitted, by adding keys to the `credentials` object.
+    //   // e.g. domain, username, password, 2FA token, etc.
+    //   // You can pass any HTML attribute to the <input> tag through the object.
+    //   credentials: {
+    //     email: {
+    //       label: "Email",
+    //       type: "email",
+    //       placeholder: "email@example.com",
+    //     },
+    //     password: {
+    //       label: "Password",
+    //       type: "password",
+    //     },
+    //   },
+    //   async authorize(credentials) {
+    //     if (!credentials || !credentials.email || !credentials.password) return null;
+    //     // Add logic here to look up the user from the credentials supplied
+
+    //     const user = await db.user.findFirst({
+    //       where: {
+    //         email: credentials.email
+    //       },
+    //     });
+
+    //       //deal password encryption
+    //     if (user && user.password === credentials.password) {
+    //       const { password, } = user
+    //       return user as User
+    //     } else {
+    //       return null
+    //     }
+    //   },
+    // }),
   ],
   callbacks: {
     session: ({ session, user }) => ({
