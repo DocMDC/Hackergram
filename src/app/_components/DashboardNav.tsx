@@ -11,18 +11,20 @@ import useClickOutNav from "../hooks/useClickOutNav";
 import { useTheme } from "../context/ThemeProvider";
 import { clsx } from "clsx";
 import { signOut } from "next-auth/react";
+import ToggleTheme from "./ui/ToggleTheme";
 
 export default function DashboardNav() {
   const [toggleSignOut, setToggleSignOut] = useState(false);
   const hamburgerRef = useRef(null);
   const settingsRef = useRef(null);
-  const { isLightTheme, setIsLightTheme } = useTheme();
+  const { isLightTheme } = useTheme();
 
   //If user clicks outside of the settingsRef, make the pop up disappear
   useClickOutNav(hamburgerRef, settingsRef, () => {
     setToggleSignOut(false);
   });
 
+  console.log(isLightTheme);
   return (
     <div
       className={clsx(
@@ -124,17 +126,10 @@ export default function DashboardNav() {
                 Account
               </Link>
 
-              <div
-                className={clsx(
-                  "flex h-10 w-full cursor-pointer items-center justify-center rounded-md",
-                  {
-                    "hover:bg-lightMode-highlight": isLightTheme,
-                    "hover:bg-darkMode-alternate": !isLightTheme,
-                  },
-                )}
-                onClick={() => setIsLightTheme((prev) => !prev)}
-              >
-                {isLightTheme ? "Enable Dark Mode" : "Disable Dark Mode"}
+              <div className="flex items-center space-x-4">
+                <span>Light</span>
+                <ToggleTheme />
+                <span>Dark</span>
               </div>
             </div>
 
