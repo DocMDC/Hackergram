@@ -14,7 +14,7 @@ export const friendsRouter = createTRPCRouter({
     });
 
     // Extract the IDs of users the current user follows
-    const followedUserIds = userFollows?.follows.map((user) => user.id) || [];
+    const followedUserIds = userFollows?.follows.map((user) => user.id) ?? [];
 
     // Shuffle the array of followedUserIds to get a random order
     const shuffledUserIds = followedUserIds.sort(() => Math.random() - 0.5);
