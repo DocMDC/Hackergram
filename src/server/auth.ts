@@ -82,7 +82,7 @@ export const authOptions: NextAuthOptions = {
         });
 
         //Verify and compare encrypted password to provided password
-        if (user && user.password) {
+        if (user?.password) {
           const match = await bcrypt.compare(
             credentials.password,
             user.password,
