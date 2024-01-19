@@ -5,7 +5,6 @@ import { env } from "../env";
 import { db } from "./db";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { randomUUID } from "crypto";
 // import { GithubProfile } from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
@@ -71,18 +70,23 @@ export const authOptions: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        if (!credentials || !credentials.email || !credentials.password)
-          return null;
-        // Add logic here to look up the user from the credentials supplied
+        if (!credentials?.email) return null;
 
+        if (!credentials?.password) return null;
+
+        //Find user in database
         const user = await db.user.findFirst({
           where: {
             email: credentials.email,
           },
         });
 
+        //Verify and compare encrypted password to provided password
         if (user && user.password) {
-          const match = bcrypt.compare(credentials.password, user.password);
+          const match = await bcrypt.compare(
+            credentials.password,
+            user.password,
+          );
 
           if (!match) {
             return null;

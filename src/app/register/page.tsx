@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { api } from "~/trpc/react";
 
-export default function page() {
+export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
